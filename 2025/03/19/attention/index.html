@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"
+      onload="renderMathInElement(document.body);"></script>
   <meta charset="utf-8">
   
   
-  <title>attention | Hexo</title>
+  
+  <title>Attention | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="1234567891011121314151617181920212223242526272829303132333435n_train &#x3D; 50  # 训练样本数x_train, _ &#x3D; torch.sort(torch.rand(n_train) * 5)   # 排序后的训练样本def f(x):    return 2 * torch.sin(x) + x**0.8y_train &#x3D; f(">
+  <meta name="description" content="注意力不需要训练">
 <meta property="og:type" content="article">
-<meta property="og:title" content="attention">
+<meta property="og:title" content="Attention">
 <meta property="og:url" content="http://example.com/2025/03/19/attention/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435n_train &#x3D; 50  # 训练样本数x_train, _ &#x3D; torch.sort(torch.rand(n_train) * 5)   # 排序后的训练样本def f(x):    return 2 * torch.sin(x) + x**0.8y_train &#x3D; f(">
+<meta property="og:description" content="注意力不需要训练">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2025-03-19T09:02:27.000Z">
-<meta property="article:modified_time" content="2025-03-19T09:02:40.855Z">
+<meta property="article:modified_time" content="2025-03-20T02:17:14.539Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -23,6 +28,10 @@
   
     <link rel="shortcut icon" href="/favicon.png">
   
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
   
   
 <link rel="stylesheet" href="/css/style.css">
@@ -35,7 +44,11 @@
   
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
 
-<meta name="generator" content="Hexo 7.3.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
 
 <body>
   <div id="container">
@@ -87,7 +100,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      attention
+      Attention
     </h1>
   
 
@@ -95,11 +108,13 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">n_train = <span class="number">50</span>  <span class="comment"># 训练样本数</span></span><br><span class="line">x_train, _ = torch.sort(torch.rand(n_train) * <span class="number">5</span>)   </span><br><span class="line"><span class="comment"># 排序后的训练样本</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">f</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span> * torch.sin(x) + x**<span class="number">0.8</span></span><br><span class="line"></span><br><span class="line">y_train = f(x_train) + torch.normal(<span class="number">0.0</span>, <span class="number">0.5</span>, (n_train,))  <span class="comment"># 训练样本的输出</span></span><br><span class="line">x_test = torch.arange(<span class="number">0</span>, <span class="number">5</span>, <span class="number">0.1</span>)  <span class="comment"># 测试样本</span></span><br><span class="line">y_truth = f(x_test)  <span class="comment"># 测试样本的真实输出</span></span><br><span class="line">n_test = <span class="built_in">len</span>(x_test)  <span class="comment"># 测试样本数</span></span><br><span class="line"><span class="comment"># X_tile的形状:(n_train，n_train)，每一行都包含着相同的训练输入</span></span><br><span class="line">X_tile = x_train.repeat((n_train, <span class="number">1</span>))</span><br><span class="line"><span class="comment"># Y_tile的形状:(n_train，n_train)，每一行都包含着相同的训练输出</span></span><br><span class="line">Y_tile = y_train.repeat((n_train, <span class="number">1</span>))</span><br><span class="line"><span class="comment"># keys的形状:(&#x27;n_train&#x27;，&#x27;n_train&#x27;-1)</span></span><br><span class="line">keys = X_tile[(<span class="number">1</span> - torch.eye(n_train)).<span class="built_in">type</span>(torch.<span class="built_in">bool</span>)].reshape((n_train, -<span class="number">1</span>))</span><br><span class="line"><span class="comment">#torch.eye返回对角线为1的矩阵</span></span><br><span class="line"><span class="comment"># values的形状:(&#x27;n_train&#x27;，&#x27;n_train&#x27;-1)，第i行去掉第i个数值，获得n_train组不同的数据</span></span><br><span class="line">values = Y_tile[(<span class="number">1</span> - torch.eye(n_train)).<span class="built_in">type</span>(torch.<span class="built_in">bool</span>)].reshape((n_train, -<span class="number">1</span>))</span><br><span class="line">net(x_train, keys, values)</span><br><span class="line"></span><br><span class="line"><span class="comment"># net查看的是造出来的数据和x_train数据之间的差值 距离越大贡献越小</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NWKernelRegression</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(**kwargs)</span><br><span class="line">        <span class="variable language_">self</span>.w = nn.Parameter(torch.rand((<span class="number">1</span>,), requires_grad=<span class="literal">True</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, queries, keys, values</span>):</span><br><span class="line">        <span class="comment"># queries和attention_weights的形状为(查询个数，“键－值”对个数)</span></span><br><span class="line">        queries = queries.repeat_interleave(keys.shape[<span class="number">1</span>]).reshape((-<span class="number">1</span>, keys.shape[<span class="number">1</span>]))</span><br><span class="line">        <span class="variable language_">self</span>.attention_weights = nn.functional.softmax(</span><br><span class="line">            -((queries - keys) * <span class="variable language_">self</span>.w)**<span class="number">2</span> / <span class="number">2</span>, dim=<span class="number">1</span>)</span><br><span class="line">        <span class="comment"># values的形状为(查询个数，“键－值”对个数)</span></span><br><span class="line">        <span class="keyword">return</span> torch.bmm(<span class="variable language_">self</span>.attention_weights.unsqueeze(<span class="number">1</span>),values.unsqueeze(-<span class="number">1</span>)).reshape(-<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+        <p>注意力不需要训练</p>
+<span id="more"></span>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">n_train = <span class="number">50</span>  <span class="comment"># 训练样本数</span></span><br><span class="line">x_train, _ = torch.sort(torch.rand(n_train) * <span class="number">5</span>)   </span><br><span class="line"><span class="comment"># 排序后的训练样本</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">f</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span> * torch.sin(x) + x**<span class="number">0.8</span></span><br><span class="line"></span><br><span class="line">y_train = f(x_train) + torch.normal(<span class="number">0.0</span>, <span class="number">0.5</span>, (n_train,))  <span class="comment"># 训练样本的输出</span></span><br><span class="line">x_test = torch.arange(<span class="number">0</span>, <span class="number">5</span>, <span class="number">0.1</span>)  <span class="comment"># 测试样本</span></span><br><span class="line">y_truth = f(x_test)  <span class="comment"># 测试样本的真实输出</span></span><br><span class="line">n_test = <span class="built_in">len</span>(x_test)  <span class="comment"># 测试样本数</span></span><br><span class="line"><span class="comment"># X_tile的形状:(n_train，n_train)，每一行都包含着相同的训练输入</span></span><br><span class="line">X_tile = x_train.repeat((n_train, <span class="number">1</span>))</span><br><span class="line"><span class="comment"># Y_tile的形状:(n_train，n_train)，每一行都包含着相同的训练输出</span></span><br><span class="line">Y_tile = y_train.repeat((n_train, <span class="number">1</span>))</span><br><span class="line"><span class="comment"># keys的形状:(&#x27;n_train&#x27;，&#x27;n_train&#x27;-1)</span></span><br><span class="line">keys = X_tile[(<span class="number">1</span> - torch.eye(n_train)).<span class="built_in">type</span>(torch.<span class="built_in">bool</span>)].reshape((n_train, -<span class="number">1</span>))</span><br><span class="line"><span class="comment">#torch.eye返回对角线为1的矩阵</span></span><br><span class="line"><span class="comment"># values的形状:(&#x27;n_train&#x27;，&#x27;n_train&#x27;-1)，第i行去掉第i个数值，获得n_train组不同的数据</span></span><br><span class="line">values = Y_tile[(<span class="number">1</span> - torch.eye(n_train)).<span class="built_in">type</span>(torch.<span class="built_in">bool</span>)].reshape((n_train, -<span class="number">1</span>))</span><br><span class="line">net(x_train, keys, values)</span><br><span class="line"></span><br><span class="line"><span class="comment"># net查看的是造出来的数据和x_train数据之间的差值 距离越大贡献越小</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NWKernelRegression</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(**kwargs)</span><br><span class="line">        <span class="variable language_">self</span>.w = nn.Parameter(torch.rand((<span class="number">1</span>,), requires_grad=<span class="literal">True</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, queries, keys, values</span>):</span><br><span class="line">        <span class="comment"># queries和attention_weights的形状为(查询个数，“键－值”对个数)</span></span><br><span class="line">        queries = queries.repeat_interleave(keys.shape[<span class="number">1</span>]).reshape((-<span class="number">1</span>, keys.shape[<span class="number">1</span>]))</span><br><span class="line">        <span class="variable language_">self</span>.attention_weights = nn.functional.softmax(</span><br><span class="line">            -((queries - keys) * <span class="variable language_">self</span>.w)**<span class="number">2</span> / <span class="number">2</span>, dim=<span class="number">1</span>)</span><br><span class="line">        <span class="comment"># values的形状为(查询个数，“键－值”对个数)</span></span><br><span class="line">        <span class="keyword">return</span> torch.bmm(<span class="variable language_">self</span>.attention_weights.unsqueeze(<span class="number">1</span>),values.unsqueeze(-<span class="number">1</span>)).reshape(-<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/19/attention/" data-id="cm8fp9e0c0001bw9i9crxb197" data-title="attention" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/03/19/attention/" data-id="cm8gpykhv0003rq9idzce8aoc" data-title="Attention" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -108,6 +123,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2025/03/19/ML/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          ML
+        
+      </div>
+    </a>
   
   
     <a href="/2025/03/13/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
@@ -150,7 +174,11 @@
       <ul>
         
           <li>
-            <a href="/2025/03/19/attention/">attention</a>
+            <a href="/2025/03/19/ML/">ML</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/19/attention/">Attention</a>
           </li>
         
           <li>
