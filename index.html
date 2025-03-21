@@ -5,6 +5,17 @@
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx" crossorigin="anonymous"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"
       onload="renderMathInElement(document.body);"></script>
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+      </script>
+      <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
   <meta charset="utf-8">
   
   
@@ -84,6 +95,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ML-math" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/03/21/ML-math/" class="article-date">
+  <time class="dt-published" datetime="2025-03-21T07:13:22.000Z" itemprop="datePublished">2025-03-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/03/21/ML-math/">ML_math</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo>∈</mo><msup><mi>R</mi><mi>n</mi></msup><mo separator="true">,</mo><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>=</mo><msup><mi>x</mi><mi>T</mi></msup><mi>y</mi><mo>=</mo><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>x</mi><mi>i</mi></msub><msub><mi>y</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">x,y \in R^{n}
+ , f(x,y)=x^{T}y=\sum_i x_iy_i
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335400000000001em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7143919999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.0857709999999998em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913309999999999em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.327674em;vertical-align:-1.277669em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0500050000000003em;"><span style="top:-1.872331em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span><span style="top:-3.050005em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.277669em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+        
+          <p class="article-more-link">
+            <a href="/2025/03/21/ML-math/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/21/ML-math/" data-id="cm8il193o0001rh9igtnbf72m" data-title="ML_math" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-ML" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/03/19/ML/" class="article-date">
@@ -116,7 +172,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/19/ML/" data-id="cm8gr7lw80001jb9i465ffd8q" data-title="ML" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/03/19/ML/" data-id="cm8il193p0003rh9ier7hbouw" data-title="ML" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -159,7 +215,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/03/19/attention/" data-id="cm8gr7lwa0003jb9i5f0r2c5h" data-title="Attention" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/03/19/attention/" data-id="cm8il193q0004rh9i91si8e4g" data-title="Attention" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -202,7 +258,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/02/06/%E6%A0%91%E5%AD%A6%E9%A2%98/" data-id="cm8gr7lwc0007jb9i1hs3gvvz" data-title="树学题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/02/06/%E6%A0%91%E5%AD%A6%E9%A2%98/" data-id="cm8il193s0008rh9if1gp4685" data-title="树学题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -245,7 +301,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2025/01/05/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/" data-id="cm8gr7lwc0006jb9i7ycl935q" data-title="数论基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2025/01/05/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/" data-id="cm8il193r0006rh9iaheg9hmu" data-title="数论基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -288,7 +344,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/12/04/%E4%BD%8D%E8%BF%90%E7%AE%97%E5%A6%99%E5%A6%99%E9%A2%98/" data-id="cm8gr7lwb0004jb9i665z2nd2" data-title="位运算妙妙题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/12/04/%E4%BD%8D%E8%BF%90%E7%AE%97%E5%A6%99%E5%A6%99%E9%A2%98/" data-id="cm8il193r0005rh9i12899cpb" data-title="位运算妙妙题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -330,7 +386,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/11/29/%E5%B9%B6%E6%9F%A5%E9%9B%86%E5%A6%99%E5%A6%99%E9%A2%98/" data-id="cm8gr7lwb0005jb9i9u7119gw" data-title="并查集妙妙题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/11/29/%E5%B9%B6%E6%9F%A5%E9%9B%86%E5%A6%99%E5%A6%99%E9%A2%98/" data-id="cm8il193r0007rh9ie1tz1kp8" data-title="并查集妙妙题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -373,7 +429,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/10/05/%E8%B4%AA%E5%BF%83%E9%A2%98/" data-id="cm8gr7lwe0009jb9i2clf5g59" data-title="贪心题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/10/05/%E8%B4%AA%E5%BF%83%E9%A2%98/" data-id="cm8il193t000brh9i152y3ffz" data-title="贪心题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -416,7 +472,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/08/29/%E7%BB%84%E5%90%88%E9%97%AE%E9%A2%98/" data-id="cm8gr7lwe0008jb9i1zvzalst" data-title="组合问题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/08/29/%E7%BB%84%E5%90%88%E9%97%AE%E9%A2%98/" data-id="cm8il193s0009rh9i1cizbyw3" data-title="组合问题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -459,7 +515,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2024/07/05/%E7%BB%99%E4%B8%AA%E9%AB%98%E4%B8%AD%E5%81%9A%E6%B3%95/" data-id="cm8gr7lwe000ajb9iepej76qs" data-title="给个高中做法" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2024/07/05/%E7%BB%99%E4%B8%AA%E9%AB%98%E4%B8%AD%E5%81%9A%E6%B3%95/" data-id="cm8il193s000arh9i5023fr1r" data-title="给个高中做法" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -502,6 +558,10 @@
       <ul>
         
           <li>
+            <a href="/2025/03/21/ML-math/">ML_math</a>
+          </li>
+        
+          <li>
             <a href="/2025/03/19/ML/">ML</a>
           </li>
         
@@ -515,10 +575,6 @@
         
           <li>
             <a href="/2025/01/05/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/">数论基础</a>
-          </li>
-        
-          <li>
-            <a href="/2024/12/04/%E4%BD%8D%E8%BF%90%E7%AE%97%E5%A6%99%E5%A6%99%E9%A2%98/">位运算妙妙题</a>
           </li>
         
       </ul>
