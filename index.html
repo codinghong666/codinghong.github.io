@@ -95,6 +95,265 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-makefile" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/18/makefile/" class="article-date">
+  <time class="dt-published" datetime="2025-04-18T02:31:11.000Z" itemprop="datePublished">2025-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/04/18/makefile/">makefile</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1变量"><a class="markdownIt-Anchor" href="#1变量"></a> 1.变量</h1>
+<p> </p>
+<h2 id="1-变量的定义"><a class="markdownIt-Anchor" href="#1-变量的定义"></a> 1 变量的定义</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cpp := src/main.cpp </span><br><span class="line">obj := objs/main.o</span><br></pre></td></tr></table></figure>
+<h2 id="2-变量的引用"><a class="markdownIt-Anchor" href="#2-变量的引用"></a> 2 变量的引用</h2>
+<ul>
+<li>可以用 <code>()</code> 或 <code>&#123;&#125;</code></li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cpp := src/main.cpp </span><br><span class="line">obj := objs/main.o</span><br><span class="line"></span><br><span class="line"><span class="variable">$(obj)</span> : $&#123;cpp&#125;</span><br><span class="line">	@g++ -c <span class="variable">$(cpp)</span> -o <span class="variable">$(obj)</span></span><br><span class="line"></span><br><span class="line">compile : <span class="variable">$(obj)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>make compile 的时候 会去找obj(这个是obj := objs/main.o 而不是 $(obj) : ${cpp}) obj依赖于cpp<br />
+ </li>
+</ul>
+<h2 id="3-预定义变量"><a class="markdownIt-Anchor" href="#3-预定义变量"></a> 3 预定义变量</h2>
+<ul>
+<li><code>$@</code>: 目标(target)的完整名称</li>
+<li><code>$&lt;</code>: 第一个依赖文件（prerequisties）的名称</li>
+<li><code>$^</code>: 所有的依赖文件（prerequisties），以空格分开，不包含重复的依赖文件</li>
+</ul>
+<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cpp := src/main.cpp </span><br><span class="line">obj := objs/main.o</span><br><span class="line"></span><br><span class="line"><span class="variable">$(obj)</span> : $&#123;cpp&#125;</span><br><span class="line">	@g++ -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span></span><br><span class="line">	@echo <span class="variable">$^</span></span><br><span class="line"></span><br><span class="line">compile : <span class="variable">$(obj)</span></span><br><span class="line">.PHONY : compile</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h1 id="2makefile-的常用函数"><a class="markdownIt-Anchor" href="#2makefile-的常用函数"></a> 2.Makefile 的常用函数</h1>
+<p>函数调用，很像变量的使用，也是以 “$” 来标识的，其语法如下：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(fn, arguments) or $&#123;fn, arguments&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>fn: 函数名</li>
+<li>arguments: 函数参数，参数间以逗号 <code>,</code> 分隔，而函数名和参数之间以“空格”分隔</li>
+</ul>
+<p> </p>
+<h2 id="1-shell"><a class="markdownIt-Anchor" href="#1-shell"></a> 1 shell</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">shell</span> &lt;command&gt; &lt;arguments&gt;)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>名称：shell 命令函数 —— shell</li>
+<li>功能：调用 shell 命令 command</li>
+<li>返回：函数返回 shell 命令 command 的执行结果</li>
+</ul>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># shell 指令，src 文件夹下找到 .cpp 文件</span></span><br><span class="line">cpp_srcs := <span class="variable">$(<span class="built_in">shell</span> find src -name <span class="string">&quot;*.cpp&quot;</span>)</span> </span><br><span class="line"><span class="comment"># shell 指令, 获取计算机架构</span></span><br><span class="line">HOST_ARCH := <span class="variable">$(<span class="built_in">shell</span> uname -m)</span></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="2-subst"><a class="markdownIt-Anchor" href="#2-subst"></a> 2 subst</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">subst</span> &lt;from&gt;,&lt;to&gt;,&lt;text&gt;)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>名称：字符串替换函数——subst</li>
+<li>功能：把字串 &lt;text&gt; 中的 &lt;from&gt; 字符串替换成 &lt;to&gt;</li>
+<li>返回：函数返回被替换过后的字符串</li>
+</ul>
+<blockquote>
+<p>示例：</p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cpp_srcs := <span class="variable">$(<span class="built_in">shell</span> find src -name <span class="string">&quot;*.cpp&quot;</span>)</span></span><br><span class="line">cpp_objs := <span class="variable">$(<span class="built_in">subst</span> src/,objs/,<span class="variable">$(cpp_objs)</span>)</span> </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="3-patsubst"><a class="markdownIt-Anchor" href="#3-patsubst"></a> 3 patsubst</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">patsubst</span> &lt;pattern&gt;,&lt;replacement&gt;,&lt;text&gt;)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>名称：模式字符串替换函数 —— patsubst</li>
+<li>功能：通配符 <code>%</code>，表示任意长度的字串，从 text 中取出 patttern， 替换成 replacement</li>
+<li>返回：函数返回被替换过后的字符串</li>
+</ul>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cpp_srcs := <span class="variable">$(<span class="built_in">shell</span> find src -name <span class="string">&quot;*.cpp&quot;</span>)</span> <span class="comment">#shell指令，src文件夹下找到.cpp文件</span></span><br><span class="line">cpp_objs := <span class="variable">$(<span class="built_in">patsubst</span> %.cpp,%.o,<span class="variable">$(cpp_srcs)</span>)</span> <span class="comment">#cpp_srcs变量下cpp文件替换成 .o文件</span></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="4-foreach"><a class="markdownIt-Anchor" href="#4-foreach"></a> 4 foreach</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">foreach</span> &lt;var&gt;,&lt;list&gt;,&lt;text&gt;)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>名称：循环函数——foreach。</li>
+<li>功能：把字串&lt;list&gt;中的元素逐一取出来，执行&lt;text&gt;包含的表达式</li>
+<li>返回：&lt;text&gt;所返回的每个字符串所组成的整个字符串（以空格分隔）</li>
+</ul>
+<blockquote>
+<p>示例：</p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">library_paths := /datav/shared/100_du/03.08/lean/protobuf-3.11.4/lib \</span><br><span class="line">                 /usr/local/cuda-10.1/lib64</span><br><span class="line"></span><br><span class="line">library_paths := <span class="variable">$(<span class="built_in">foreach</span> item,<span class="variable">$(library_paths)</span>,-L<span class="variable">$(item)</span>)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>同等效果</p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I_flag := $(include_paths:%=-I%)</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="5-dir"><a class="markdownIt-Anchor" href="#5-dir"></a> 5 dir</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">dir</span> &lt;names...&gt;)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>名称：取目录函数——dir。</li>
+<li>功能：从文件名序列<names>中取出目录部分。目录部分是指最后一个反斜杠（“/”）之前<br />
+的部分。如果没有反斜杠，那么返回“./”。</li>
+<li>返回：返回文件名序列<names>的目录部分。</li>
+<li>示例：</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">dir</span> src/foo.c hacks)</span>    <span class="comment"># 返回值是“src/ ./”。</span></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="6-notdir"><a class="markdownIt-Anchor" href="#6-notdir"></a> 6 notdir</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">notdir</span> &lt;names...&gt;)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">libs   := <span class="variable">$(<span class="built_in">notdir</span> $(<span class="built_in">shell</span> find /usr/lib -name lib*)</span>)</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="7-filter"><a class="markdownIt-Anchor" href="#7-filter"></a> 7 filter</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">filter</span> &lt;names...&gt;)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">libs    := <span class="variable">$(<span class="built_in">notdir</span> $(<span class="built_in">shell</span> find /usr/lib -name lib*)</span>)</span><br><span class="line">a_libs  := <span class="variable">$(<span class="built_in">filter</span> %.a,<span class="variable">$(libs)</span>)</span></span><br><span class="line">so_libs := <span class="variable">$(<span class="built_in">filter</span> %.so,<span class="variable">$(libs)</span>)</span></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="8-basename"><a class="markdownIt-Anchor" href="#8-basename"></a> 8 basename</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">basename</span> &lt;names...&gt;)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">libs    := <span class="variable">$(<span class="built_in">notdir</span> $(<span class="built_in">shell</span> find /usr/lib -name lib*)</span>)</span><br><span class="line">a_libs  := <span class="variable">$(<span class="built_in">subst</span> lib,,$(<span class="built_in">basename</span> $(<span class="built_in">filter</span> %.a,<span class="variable">$(libs)</span>)</span>))</span><br><span class="line">so_libs := <span class="variable">$(<span class="built_in">subst</span> lib,,$(<span class="built_in">basename</span> $(<span class="built_in">filter</span> %.so,<span class="variable">$(libs)</span>)</span>))</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="9-filter-out"><a class="markdownIt-Anchor" href="#9-filter-out"></a> 9 filter-out</h2>
+<ul>
+<li>剔除不想要的字符串</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">objs := objs/add.o objs/minus.o objs/main.o</span><br><span class="line">cpp_objs := <span class="variable">$(<span class="built_in">filter</span>-out objs/main.o, <span class="variable">$(objs)</span>)</span></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="10-wildcard"><a class="markdownIt-Anchor" href="#10-wildcard"></a> 10 wildcard</h2>
+<ul>
+<li>The wildcard function expands to a space-separated list of filenames that match the given patterns</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cpp_srcs := <span class="variable">$(<span class="built_in">wildcard</span> src/*.cc src/*.cpp src/*.c)</span></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="examples"><a class="markdownIt-Anchor" href="#examples"></a> Examples</h2>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://boost.mk">boost.mk</a></p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ROOT := /usr</span><br><span class="line"></span><br><span class="line">sys_INCLUDE := <span class="variable">$(ROOT)</span>/<span class="keyword">include</span></span><br><span class="line">sys_LIB_DIR := /usr/lib/x86_64-linux-gnu</span><br><span class="line">full_paths := <span class="variable">$(<span class="built_in">shell</span> find <span class="variable">$(sys_LIB_DIR)</span> -name <span class="string">&quot;libboost_*&quot;</span>)</span></span><br><span class="line">sys_LIBS = <span class="variable">$(<span class="built_in">filter</span> %.a %.so, <span class="variable">$(full_paths)</span>)</span></span><br><span class="line"><span class="comment"># sys_LIBS := $(wildcard $(sys_LIBS)*.a $(sys_LIBS)*.so)</span></span><br><span class="line">sys_LIBS := <span class="variable">$(<span class="built_in">basename</span> $(<span class="built_in">notdir</span> <span class="variable">$(sys_LIBS)</span>)</span>)</span><br><span class="line">sys_LIBS := <span class="variable">$(<span class="built_in">patsubst</span> lib%,%,<span class="variable">$(sys_LIBS)</span>)</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/04/18/makefile/" data-id="cm9m6ig0g00002d9i6xe89to6" data-title="makefile" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-phy" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/03/23/phy/" class="article-date">
+  <time class="dt-published" datetime="2025-03-23T08:07:29.000Z" itemprop="datePublished">2025-03-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2025/03/23/phy/">phy</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>定轴转动刚体的运动规律与质点运动规律之间确实存在许多类似的对应关系，这些对应关系有助于我们更好地理解和类比刚体定轴转动与质点运动。以下是它们之间的详细对应关系：</p>
+<ol>
+<li>
+<p>角位移与位移</p>
+<ul>
+<li>质点运动：位移是质点在运动过程中位置的变化，是矢量，具有大小和方向。</li>
+<li>定轴转动刚体：角位移是刚体绕定轴转动时转过的角度，也是矢量，其方向由右手螺旋法则确定。对于定轴转动，角位移的大小表示刚体转过的角度，方向表示转动方向。</li>
+<li>对应关系：角位移是定轴转动刚体的“位置变化”量，类似于质点运动中的位移，但质点位移是线量，而角位移是角量。</li>
+</ul>
+</li>
+<li>
+<p>角速度与速度</p>
+<ul>
+<li>质点运动：速度是质点位移随时间的变化率，是矢量，表示质点运动的快慢和方向。</li>
+<li>定轴转动刚体：角速度是角位移随时间的变化率，也是矢量，其方向由右手螺旋法则确定。角速度的大小表示刚体转动的快慢，方向表示转动方向。</li>
+<li>对应关系：角速度是定轴转动刚体的“运动快慢”量，类似于质点运动中的速度。如果刚体上某点到转轴的距离为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span></span></span>，则该点的线速度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi></mrow><annotation encoding="application/x-tex">v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span> 与角速度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ω</mi></mrow><annotation encoding="application/x-tex">\omega</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span></span></span></span> 的关系为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>=</mo><mi>r</mi><mi>ω</mi></mrow><annotation encoding="application/x-tex">v = r\omega</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span></span></span></span>。</li>
+</ul>
+</li>
+<li>
+<p>角加速度与加速度</p>
+<ul>
+<li>质点运动：加速度是速度随时间的变化率，是矢量，表示质点速度变化的快慢和方向。</li>
+<li>定轴转动刚体：角加速度是角速度随时间的变化率，也是矢量，其方向由右手螺旋法则确定。角加速度的大小表示刚体角速度变化的快慢，方向表示角速度变化的方向。</li>
+<li>对应关系：角加速度是定轴转动刚体的“速度变化快慢”量，类似于质点运动中的加速度。刚体上某点的切向加速度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>t</mi></msub></mrow><annotation encoding="application/x-tex">a_t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 与角加速度 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi></mrow><annotation encoding="application/x-tex">\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span> 的关系为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>a</mi><mi>t</mi></msub><mo>=</mo><mi>r</mi><mi>α</mi></mrow><annotation encoding="application/x-tex">a_t = r\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span>。</li>
+</ul>
+</li>
+<li>
+<p>转动惯量与质量</p>
+<ul>
+<li>质点运动：质量是质点惯性的度量，质量越大，质点的运动状态越难改变。</li>
+<li>定轴转动刚体：转动惯量是刚体绕定轴转动时惯性的度量，它取决于刚体的质量分布和转轴的位置。转动惯量越大，刚体的转动状态越难改变。</li>
+<li>对应关系：转动惯量是定轴转动刚体的“惯性”量，类似于质点运动中的质量。它反映了刚体绕定轴转动时的惯性大小。例如，对于一个质量为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span></span></span></span>、半径为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span></span></span></span> 的薄圆环，绕其中心轴的转动惯量为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>=</mo><mi>m</mi><msup><mi>r</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">I = m r^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord mathnormal">m</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>。</li>
+</ul>
+</li>
+<li>
+<p>力矩与力</p>
+<ul>
+<li>质点运动：力是改变质点运动状态的原因，是矢量，其作用效果取决于力的大小、方向和作用点。</li>
+<li>定轴转动刚体：力矩是力对刚体转动的影响，是矢量，其大小取决于力的大小、方向和力臂（力的作用点到转轴的垂直距离）。力矩的方向由右手螺旋法则确定。</li>
+<li>对应关系：力矩是定轴转动刚体的“作用效应”量，类似于质点运动中的力。力矩是改变刚体转动状态的原因，其作用效果取决于力矩的大小和方向。根据刚体的转动定律 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mi>I</mi><mi>α</mi></mrow><annotation encoding="application/x-tex">\tau = I\alpha</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span></span></span></span>，力矩与角加速度的关系类似于力与加速度的关系 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo>=</mo><mi>m</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">F = ma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal">a</span></span></span></span>。</li>
+</ul>
+</li>
+<li>
+<p>角动量与动量</p>
+<ul>
+<li>质点运动：动量是质点运动状态的量度，是矢量，其大小为质量与速度的乘积 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mi>m</mi><mi>v</mi></mrow><annotation encoding="application/x-tex">p = m v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">m</span><span class="mord mathnormal" style="margin-right:0.03588em;">v</span></span></span></span>。</li>
+<li>定轴转动刚体：角动量是刚体转动状态的量度，是矢量，其大小为转动惯量与角速度的乘积 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mo>=</mo><mi>I</mi><mi>ω</mi></mrow><annotation encoding="application/x-tex">L = I\omega</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal">L</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span></span></span></span>。</li>
+<li>对应关系：角动量是定轴转动刚体的“运动状态”量，类似于质点运动中的动量。角动量守恒定律与动量守恒定律在形式上也类似，当刚体所受的合外力矩为零时，刚体的角动量保持不变。</li>
+</ul>
+</li>
+<li>
+<p>转动动能与动能</p>
+<ul>
+<li>质点运动：动能是质点运动的能量，其大小为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>m</mi><msup><mi>v</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">K = \frac{1}{2} m v^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathnormal">m</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>。</li>
+<li>定轴转动刚体：转动动能是刚体转动时的能量，其大小为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mtext>rot</mtext></msub><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi>I</mi><msup><mi>ω</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">K_{\text{rot}} = \frac{1}{2} I \omega^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">rot</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span>。</li>
+<li>对应关系：转动动能是定轴转动刚体的“能量”量，类似于质点运动中的动能。它们都与运动状态的快慢（速度或角速度）的平方成正比，且都与惯性量（质量或转动惯量）成正比。</li>
+</ul>
+</li>
+</ol>
+<p>通过这些对应关系，我们可以更好地理解定轴转动刚体的运动规律，并利用质点运动的规律来类比和推导刚体的运动规律。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/03/23/phy/" data-id="cm9m6ig0i00012d9igcn49a2b" data-title="phy" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-ML-math" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2025/03/21/ML-math/" class="article-date">
@@ -441,93 +700,12 @@
 
 
   
-    <article id="post-组合问题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/08/29/%E7%BB%84%E5%90%88%E9%97%AE%E9%A2%98/" class="article-date">
-  <time class="dt-published" datetime="2024-08-29T02:36:22.000Z" itemprop="datePublished">2024-08-29</time>
-</a>
+
+
+  <nav id="page-nav">
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/08/29/%E7%BB%84%E5%90%88%E9%97%AE%E9%A2%98/">组合问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>n个人排成一排，选k个人，使他们两两不相邻，求方案数。</p>
-        
-          <p class="article-more-link">
-            <a href="/2024/08/29/%E7%BB%84%E5%90%88%E9%97%AE%E9%A2%98/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/08/29/%E7%BB%84%E5%90%88%E9%97%AE%E9%A2%98/" data-id="cm8il193s0009rh9i1cizbyw3" data-title="组合问题" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-给个高中做法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/07/05/%E7%BB%99%E4%B8%AA%E9%AB%98%E4%B8%AD%E5%81%9A%E6%B3%95/" class="article-date">
-  <time class="dt-published" datetime="2024-07-05T02:39:48.000Z" itemprop="datePublished">2024-07-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2024/07/05/%E7%BB%99%E4%B8%AA%E9%AB%98%E4%B8%AD%E5%81%9A%E6%B3%95/">给个高中做法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>考虑到第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> 次黑球的位置只与第 $ k-1$ 次的位置有关，不妨将球现在的位置设为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathnormal">i</span></span></span></span> ，那么随机选择一次后仍在 $ i$ 的概率为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><msup><mi>n</mi><mn>2</mn></msup></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{n^2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463142857142857em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> + <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><msup><mi>n</mi><mn>2</mn></msup></mfrac></mrow><annotation encoding="application/x-tex">\frac{(n-1)^2}{n^2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.4539199999999999em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.10892em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463142857142857em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span><span class="mclose mtight"><span class="mclose mtight">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913142857142857em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>,位于<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo stretchy="false">(</mo><mi>j</mi><mo>≠</mo><mi>i</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">j(j\not=i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="inner"><span class="mrel"></span></span><span class="fix"></span></span></span></span></span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">i</span><span class="mclose">)</span></span></span></span>的概率为<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>2</mn><msup><mi>n</mi><mn>2</mn></msup></mfrac></mrow><annotation encoding="application/x-tex">\frac{2}{n^2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463142857142857em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span> 。（把<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>=</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a=b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathnormal">b</span></span></span></span>的情况考虑在内，即球的位置不变动，对概率无影响。）</p>
-        
-          <p class="article-more-link">
-            <a href="/2024/07/05/%E7%BB%99%E4%B8%AA%E9%AB%98%E4%B8%AD%E5%81%9A%E6%B3%95/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/07/05/%E7%BB%99%E4%B8%AA%E9%AB%98%E4%B8%AD%E5%81%9A%E6%B3%95/" data-id="cm8il193s000arh9i5023fr1r" data-title="给个高中做法" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+  </nav>
 
 </section>
         
@@ -545,7 +723,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">January 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">August 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/07/">July 2024</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/04/">April 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">January 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">August 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/07/">July 2024</a></li></ul>
     </div>
   </div>
 
@@ -558,6 +736,14 @@
       <ul>
         
           <li>
+            <a href="/2025/04/18/makefile/">makefile</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/23/phy/">phy</a>
+          </li>
+        
+          <li>
             <a href="/2025/03/21/ML-math/">ML_math</a>
           </li>
         
@@ -567,14 +753,6 @@
         
           <li>
             <a href="/2025/03/19/attention/">Attention</a>
-          </li>
-        
-          <li>
-            <a href="/2025/02/06/%E6%A0%91%E5%AD%A6%E9%A2%98/">树学题</a>
-          </li>
-        
-          <li>
-            <a href="/2025/01/05/%E6%95%B0%E8%AE%BA%E5%9F%BA%E7%A1%80/">数论基础</a>
           </li>
         
       </ul>

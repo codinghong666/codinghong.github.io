@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js" integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js" integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"
+      onload="renderMathInElement(document.body);"></script>
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            processEscapes: true,
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+        });
+      </script>
+      <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+  <meta charset="utf-8">
+  
+  
+  
+  <title>makefile | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1.变量    1 变量的定义 12cpp :&#x3D; src&#x2F;main.cpp obj :&#x3D; objs&#x2F;main.o  2 变量的引用  可以用 () 或 &amp;#123;&amp;#125;  1234567cpp :&#x3D; src&#x2F;main.cpp obj :&#x3D; objs&#x2F;main.o$(obj) : $&amp;#123;cpp&amp;#125;	@g++ -c $(cpp) -o $(obj)compile : $(ob">
+<meta property="og:type" content="article">
+<meta property="og:title" content="makefile">
+<meta property="og:url" content="http://example.com/2025/04/18/makefile/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.变量    1 变量的定义 12cpp :&#x3D; src&#x2F;main.cpp obj :&#x3D; objs&#x2F;main.o  2 变量的引用  可以用 () 或 &amp;#123;&amp;#125;  1234567cpp :&#x3D; src&#x2F;main.cpp obj :&#x3D; objs&#x2F;main.o$(obj) : $&amp;#123;cpp&amp;#125;	@g++ -c $(cpp) -o $(obj)compile : $(ob">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-04-18T02:31:11.000Z">
+<meta property="article:modified_time" content="2025-04-18T02:36:55.810Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-makefile" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2025/04/18/makefile/" class="article-date">
+  <time class="dt-published" datetime="2025-04-18T02:31:11.000Z" itemprop="datePublished">2025-04-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      makefile
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1变量"><a class="markdownIt-Anchor" href="#1变量"></a> 1.变量</h1>
+<p> </p>
+<h2 id="1-变量的定义"><a class="markdownIt-Anchor" href="#1-变量的定义"></a> 1 变量的定义</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cpp := src/main.cpp </span><br><span class="line">obj := objs/main.o</span><br></pre></td></tr></table></figure>
+<h2 id="2-变量的引用"><a class="markdownIt-Anchor" href="#2-变量的引用"></a> 2 变量的引用</h2>
+<ul>
+<li>可以用 <code>()</code> 或 <code>&#123;&#125;</code></li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cpp := src/main.cpp </span><br><span class="line">obj := objs/main.o</span><br><span class="line"></span><br><span class="line"><span class="variable">$(obj)</span> : $&#123;cpp&#125;</span><br><span class="line">	@g++ -c <span class="variable">$(cpp)</span> -o <span class="variable">$(obj)</span></span><br><span class="line"></span><br><span class="line">compile : <span class="variable">$(obj)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>make compile 的时候 会去找obj(这个是obj := objs/main.o 而不是 $(obj) : ${cpp}) obj依赖于cpp<br />
+ </li>
+</ul>
+<h2 id="3-预定义变量"><a class="markdownIt-Anchor" href="#3-预定义变量"></a> 3 预定义变量</h2>
+<ul>
+<li><code>$@</code>: 目标(target)的完整名称</li>
+<li><code>$&lt;</code>: 第一个依赖文件（prerequisties）的名称</li>
+<li><code>$^</code>: 所有的依赖文件（prerequisties），以空格分开，不包含重复的依赖文件</li>
+</ul>
+<figure class="highlight make"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cpp := src/main.cpp </span><br><span class="line">obj := objs/main.o</span><br><span class="line"></span><br><span class="line"><span class="variable">$(obj)</span> : $&#123;cpp&#125;</span><br><span class="line">	@g++ -c <span class="variable">$&lt;</span> -o <span class="variable">$@</span></span><br><span class="line">	@echo <span class="variable">$^</span></span><br><span class="line"></span><br><span class="line">compile : <span class="variable">$(obj)</span></span><br><span class="line">.PHONY : compile</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h1 id="2makefile-的常用函数"><a class="markdownIt-Anchor" href="#2makefile-的常用函数"></a> 2.Makefile 的常用函数</h1>
+<p>函数调用，很像变量的使用，也是以 “$” 来标识的，其语法如下：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(fn, arguments) or $&#123;fn, arguments&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>fn: 函数名</li>
+<li>arguments: 函数参数，参数间以逗号 <code>,</code> 分隔，而函数名和参数之间以“空格”分隔</li>
+</ul>
+<p> </p>
+<h2 id="1-shell"><a class="markdownIt-Anchor" href="#1-shell"></a> 1 shell</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">shell</span> &lt;command&gt; &lt;arguments&gt;)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>名称：shell 命令函数 —— shell</li>
+<li>功能：调用 shell 命令 command</li>
+<li>返回：函数返回 shell 命令 command 的执行结果</li>
+</ul>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># shell 指令，src 文件夹下找到 .cpp 文件</span></span><br><span class="line">cpp_srcs := <span class="variable">$(<span class="built_in">shell</span> find src -name <span class="string">&quot;*.cpp&quot;</span>)</span> </span><br><span class="line"><span class="comment"># shell 指令, 获取计算机架构</span></span><br><span class="line">HOST_ARCH := <span class="variable">$(<span class="built_in">shell</span> uname -m)</span></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="2-subst"><a class="markdownIt-Anchor" href="#2-subst"></a> 2 subst</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">subst</span> &lt;from&gt;,&lt;to&gt;,&lt;text&gt;)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>名称：字符串替换函数——subst</li>
+<li>功能：把字串 &lt;text&gt; 中的 &lt;from&gt; 字符串替换成 &lt;to&gt;</li>
+<li>返回：函数返回被替换过后的字符串</li>
+</ul>
+<blockquote>
+<p>示例：</p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cpp_srcs := <span class="variable">$(<span class="built_in">shell</span> find src -name <span class="string">&quot;*.cpp&quot;</span>)</span></span><br><span class="line">cpp_objs := <span class="variable">$(<span class="built_in">subst</span> src/,objs/,<span class="variable">$(cpp_objs)</span>)</span> </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="3-patsubst"><a class="markdownIt-Anchor" href="#3-patsubst"></a> 3 patsubst</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">patsubst</span> &lt;pattern&gt;,&lt;replacement&gt;,&lt;text&gt;)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>名称：模式字符串替换函数 —— patsubst</li>
+<li>功能：通配符 <code>%</code>，表示任意长度的字串，从 text 中取出 patttern， 替换成 replacement</li>
+<li>返回：函数返回被替换过后的字符串</li>
+</ul>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cpp_srcs := <span class="variable">$(<span class="built_in">shell</span> find src -name <span class="string">&quot;*.cpp&quot;</span>)</span> <span class="comment">#shell指令，src文件夹下找到.cpp文件</span></span><br><span class="line">cpp_objs := <span class="variable">$(<span class="built_in">patsubst</span> %.cpp,%.o,<span class="variable">$(cpp_srcs)</span>)</span> <span class="comment">#cpp_srcs变量下cpp文件替换成 .o文件</span></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="4-foreach"><a class="markdownIt-Anchor" href="#4-foreach"></a> 4 foreach</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">foreach</span> &lt;var&gt;,&lt;list&gt;,&lt;text&gt;)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>名称：循环函数——foreach。</li>
+<li>功能：把字串&lt;list&gt;中的元素逐一取出来，执行&lt;text&gt;包含的表达式</li>
+<li>返回：&lt;text&gt;所返回的每个字符串所组成的整个字符串（以空格分隔）</li>
+</ul>
+<blockquote>
+<p>示例：</p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">library_paths := /datav/shared/100_du/03.08/lean/protobuf-3.11.4/lib \</span><br><span class="line">                 /usr/local/cuda-10.1/lib64</span><br><span class="line"></span><br><span class="line">library_paths := <span class="variable">$(<span class="built_in">foreach</span> item,<span class="variable">$(library_paths)</span>,-L<span class="variable">$(item)</span>)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>同等效果</p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I_flag := $(include_paths:%=-I%)</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="5-dir"><a class="markdownIt-Anchor" href="#5-dir"></a> 5 dir</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">dir</span> &lt;names...&gt;)</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>名称：取目录函数——dir。</li>
+<li>功能：从文件名序列<names>中取出目录部分。目录部分是指最后一个反斜杠（“/”）之前<br />
+的部分。如果没有反斜杠，那么返回“./”。</li>
+<li>返回：返回文件名序列<names>的目录部分。</li>
+<li>示例：</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">dir</span> src/foo.c hacks)</span>    <span class="comment"># 返回值是“src/ ./”。</span></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="6-notdir"><a class="markdownIt-Anchor" href="#6-notdir"></a> 6 notdir</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">notdir</span> &lt;names...&gt;)</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">libs   := <span class="variable">$(<span class="built_in">notdir</span> $(<span class="built_in">shell</span> find /usr/lib -name lib*)</span>)</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="7-filter"><a class="markdownIt-Anchor" href="#7-filter"></a> 7 filter</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">filter</span> &lt;names...&gt;)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">libs    := <span class="variable">$(<span class="built_in">notdir</span> $(<span class="built_in">shell</span> find /usr/lib -name lib*)</span>)</span><br><span class="line">a_libs  := <span class="variable">$(<span class="built_in">filter</span> %.a,<span class="variable">$(libs)</span>)</span></span><br><span class="line">so_libs := <span class="variable">$(<span class="built_in">filter</span> %.so,<span class="variable">$(libs)</span>)</span></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="8-basename"><a class="markdownIt-Anchor" href="#8-basename"></a> 8 basename</h2>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$(<span class="built_in">basename</span> &lt;names...&gt;)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">libs    := <span class="variable">$(<span class="built_in">notdir</span> $(<span class="built_in">shell</span> find /usr/lib -name lib*)</span>)</span><br><span class="line">a_libs  := <span class="variable">$(<span class="built_in">subst</span> lib,,$(<span class="built_in">basename</span> $(<span class="built_in">filter</span> %.a,<span class="variable">$(libs)</span>)</span>))</span><br><span class="line">so_libs := <span class="variable">$(<span class="built_in">subst</span> lib,,$(<span class="built_in">basename</span> $(<span class="built_in">filter</span> %.so,<span class="variable">$(libs)</span>)</span>))</span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="9-filter-out"><a class="markdownIt-Anchor" href="#9-filter-out"></a> 9 filter-out</h2>
+<ul>
+<li>剔除不想要的字符串</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">objs := objs/add.o objs/minus.o objs/main.o</span><br><span class="line">cpp_objs := <span class="variable">$(<span class="built_in">filter</span>-out objs/main.o, <span class="variable">$(objs)</span>)</span></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="10-wildcard"><a class="markdownIt-Anchor" href="#10-wildcard"></a> 10 wildcard</h2>
+<ul>
+<li>The wildcard function expands to a space-separated list of filenames that match the given patterns</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cpp_srcs := <span class="variable">$(<span class="built_in">wildcard</span> src/*.cc src/*.cpp src/*.c)</span></span><br></pre></td></tr></table></figure>
+<p> </p>
+<h2 id="examples"><a class="markdownIt-Anchor" href="#examples"></a> Examples</h2>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://boost.mk">boost.mk</a></p>
+</blockquote>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ROOT := /usr</span><br><span class="line"></span><br><span class="line">sys_INCLUDE := <span class="variable">$(ROOT)</span>/<span class="keyword">include</span></span><br><span class="line">sys_LIB_DIR := /usr/lib/x86_64-linux-gnu</span><br><span class="line">full_paths := <span class="variable">$(<span class="built_in">shell</span> find <span class="variable">$(sys_LIB_DIR)</span> -name <span class="string">&quot;libboost_*&quot;</span>)</span></span><br><span class="line">sys_LIBS = <span class="variable">$(<span class="built_in">filter</span> %.a %.so, <span class="variable">$(full_paths)</span>)</span></span><br><span class="line"><span class="comment"># sys_LIBS := $(wildcard $(sys_LIBS)*.a $(sys_LIBS)*.so)</span></span><br><span class="line">sys_LIBS := <span class="variable">$(<span class="built_in">basename</span> $(<span class="built_in">notdir</span> <span class="variable">$(sys_LIBS)</span>)</span>)</span><br><span class="line">sys_LIBS := <span class="variable">$(<span class="built_in">patsubst</span> lib%,%,<span class="variable">$(sys_LIBS)</span>)</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2025/04/18/makefile/" data-id="cm9m6ig0g00002d9i6xe89to6" data-title="makefile" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2025/03/23/phy/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">phy</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/04/">April 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/03/">March 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/02/">February 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/01/">January 2025</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/11/">November 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/10/">October 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/08/">August 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/07/">July 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2025/04/18/makefile/">makefile</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/23/phy/">phy</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/21/ML-math/">ML_math</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/19/ML/">ML</a>
+          </li>
+        
+          <li>
+            <a href="/2025/03/19/attention/">Attention</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
